@@ -8,6 +8,14 @@ export class bookService {
   englishBooks(): object[] {
     return books;
   }
+
+  englishBookSingle(): object {
+    return { name: 'get object by params' };
+  }
+
+  saveBook(data): object {
+    return data;
+  }
 }
 
 const books = [

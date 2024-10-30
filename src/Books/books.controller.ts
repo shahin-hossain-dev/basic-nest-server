@@ -1,5 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 import { bookService } from './books.service';
+import { CreateBookDto } from './dtos/create-book.dto';
 
 @Controller('book')
 export class bookController {
@@ -13,5 +21,18 @@ export class bookController {
   @Get('english-books')
   englishBooks(): object[] {
     return this.bookService.englishBooks();
+  }
+
+  @Get('english-books/:params')
+  englishBookSingle(@Param() params: object): object {
+    // console.log(params);
+    return this.bookService.englishBookSingle();
+  }
+
+  @Post('save')
+  //এখানে controller validation করা হয়েছে।
+  //saveBook(@Body(new ValidationPipe()) body: CreateBookDto) {
+  saveBook(@Body() body: CreateBookDto) {
+    return this.bookService.saveBook(body);
   }
 }
