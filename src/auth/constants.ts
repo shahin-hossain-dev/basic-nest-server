@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
+require('dotenv').config();
 
 export const jwtConstants = {
-  secret: process.env.NEST_JWT_SECRET_KEY,
+  secret: process.env.SECRET_KEY,
 };
-console.log(jwtConstants.secret);

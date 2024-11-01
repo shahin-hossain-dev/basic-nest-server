@@ -23,6 +23,7 @@ export class bookController {
     return this.bookService.englishBooks();
   }
 
+  // get value from param with @Param decorator
   @Get('english-books/:params')
   englishBookSingle(@Param() params: object): object {
     // console.log(params);

@@ -19,3 +19,4 @@ import { jwtConstants } from './constants';
   exports: [AuthService],
 })
 export class AuthModule {}
+console.log(jwtConstants);
