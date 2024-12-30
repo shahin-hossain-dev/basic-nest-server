@@ -6,7 +6,7 @@ export class BottleService {
     return 'All Bottles';
   }
 
-  saveBottles(data) {
+  saveBottles(data: string) {
     console.log(data);
     return data;
   }

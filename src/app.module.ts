@@ -5,6 +5,7 @@ import { bookModule } from './Books/books.module';
 import { BottleModule } from './Bottles/bottle.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
     BottleModule,
     AuthModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
