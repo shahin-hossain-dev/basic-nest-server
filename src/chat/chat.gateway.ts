@@ -14,9 +14,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer() server: Server;
   handleConnection(client: any, ...args: any[]) {
     console.log(`New Client Connected ${client.id}`);
+    //broadcast message
+    this.server.emit('user-joined', {
+      message: `User Joined the chat: ${client.id}`,
+    });
   }
   handleDisconnect(client: any) {
     console.log(`Client Disconnected ${client.id}`);
+    //broadcast message
+    this.server.emit('user-left', {
+      message: `User Left the chat ${client.id}`,
+    });
   }
 
   @SubscribeMessage('newMessage')
@@ -27,6 +35,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     console.log(message);
     //send message to client from server with 'replay' custom event
     client.emit('replay', "Hi!! I'm from server");
+    //broadcast message
     this.server.emit('broadcast', 'This is the Broadcast Message');
   }
 }
