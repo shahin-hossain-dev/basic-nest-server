@@ -1,4 +1,5 @@
 import {
+  ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -15,8 +16,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleConnection(client: any, ...args: any[]) {
     console.log(`New Client Connected ${client.id}`);
     //broadcast message
-    this.server.emit('user-joined', {
-      message: `User Joined the chat: ${client.id}`,
+    // this.server.emit('userJoined', {
+    //   message: `New User Joined the chat: ${client.id}`,
+    // });
+    client.broadcast.emit('userJoined', {
+      message: `New User Joined the chat: ${client.id}`,
     });
   }
   handleDisconnect(client: any) {
@@ -26,17 +30,27 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       message: `User Left the chat ${client.id}`,
     });
   }
+  @SubscribeMessage('join')
+  handleJoin(@ConnectedSocket() client: Socket, @MessageBody() userId: string) {
+    console.log(userId);
+  }
 
   @SubscribeMessage('newMessage')
   //   handleMessageEvent(@MessageBody() message: any) {
   //     console.log(message);
   //   }
-  handleMessageEvent(client: Socket, message: any) {
-    console.log(message);
-    //send message to client from server with 'replay' custom event
-    client.emit('replay', "Hi!! I'm from server");
-    //broadcast message
-    this.server.emit('broadcast', 'This is the Broadcast Message');
+  // handleMessageEvent(client: Socket, message: any) {
+  //   //  console.log(message);
+  //   //send message to client from server with 'replay' custom event
+  //   client.emit('replay', "Hi!! I'm from server");
+  //   //broadcast message
+  //   this.server.emit('broadcast', 'This is the Broadcast Message');
+  // }
+  handleNewMessage(
+    @MessageBody() data: string,
+    @ConnectedSocket() client: Socket,
+  ) {
+    this.server.emit('message', data);
   }
 }
 
